@@ -26,7 +26,7 @@
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },
-  "homepage": "https://e001029.github.io/tdm",
+  "homepage": "https://e001029.github.io/test-data-management",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
