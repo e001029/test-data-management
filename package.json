@@ -26,7 +26,7 @@
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },
-  "homepage": "https://your-username.github.io/react-team-app", 
+  "homepage": "https://e001029.github.io/tdm",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
