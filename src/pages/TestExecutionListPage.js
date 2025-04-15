@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ListItemText } from '@mui/material';
-import renderInputFields from '../helpers/commonInputFields';
 // Import your Nucor logo
 import logo from '../assets/getsitelogo.png';
 import {
@@ -16,16 +15,12 @@ import {
   CircularProgress,
   Divider,
   Grid,
-  FormControl,
-  InputLabel,
-  Select,
   MenuItem,
   TextField,
   Chip,
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableRow,
   TableContainer,
   IconButton,
@@ -35,7 +30,6 @@ import {
   ListItemAvatar,
   Avatar,
   Tooltip,
-  Paper
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Particles from 'react-tsparticles';
@@ -64,14 +58,9 @@ import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 
 // Register Chart.js components
 ChartJS.register(
@@ -269,7 +258,6 @@ function TestExecutionListPage({ onBack }) {
   // -------------------------
   // State declarations
   // -------------------------
-  const [selectedView, setSelectedView] = useState('Automation Test Repository');
   const [executionState, setExecutionState] = useState({
     step: 0,
     token: null,
@@ -286,7 +274,7 @@ function TestExecutionListPage({ onBack }) {
   const [expandedTest, setExpandedTest] = useState({}); // Expanded test cases
   const [executionHistory, setExecutionHistory] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterStatus, setFilterStatus] = useState('All');
+  const [filterStatus] = useState('All');
 
   // Ref to hold polling interval ID
   const pollingIntervalRef = useRef(null);
@@ -1458,7 +1446,7 @@ function TestExecutionListPage({ onBack }) {
           </AppBar>
 		  
 		  {/* Main 2-column area (sidebar + content), flush with the top bar */}
-          <Box sx={{ flex: 1, display: 'flex', position: 'relative' }}>
+          <Box sx={{ flex: 4, display: 'flex', position: 'relative' }}>
             {/* Particles behind everything */}
             <Particles
               id="tsparticles-test-execution"
@@ -1508,9 +1496,9 @@ function TestExecutionListPage({ onBack }) {
 
             <Box sx={{ p: 0 }}>
               {/* Dashboard Section */}
-              <NeumorphicCard sx={{ mb: 2, p: 2 }}>
+              <NeumorphicCard sx={{ mt: 0, mb: 2, pt: 2, px: 6, pb: 3 }}>
                 <Box sx={{ textAlign: 'center', mb: 2 }}>
-                  <Typography variant="h5" sx={{ fontSize: '1rem', color: 'text.primary' }}>
+                  <Typography variant="h5" sx={{ fontSize: '1.5rem', color: 'text.primary' }}>
                     Execution Dashboard
                   </Typography>
                 </Box>

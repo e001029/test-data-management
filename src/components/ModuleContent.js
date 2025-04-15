@@ -44,7 +44,7 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
 // Configuration imports
-import { moduleFields, modules, moduleCategories } from '../config/moduleFields';
+import { moduleFields, moduleCategories } from '../config/moduleFields';
 import { theme } from '../theme';
 
 // Styled GlassCard for consistent, compact UI
