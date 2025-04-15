@@ -2,18 +2,44 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Box, CssBaseline, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListItemAvatar,
-  Typography, TextField, Button, Card,AppBar, Toolbar,
-  CardContent, FormControl, InputLabel, MenuItem, Paper, Table, TableContainer, TableHead,
-  TableBody, TableCell, TableRow, createTheme, ThemeProvider, IconButton, Snackbar, Alert, Dialog,
-  DialogActions, DialogContent, DialogContentText, DialogTitle, CircularProgress, Stepper, Step,
-  StepLabel, Divider, LinearProgress, Tooltip, Accordion, AccordionSummary, AccordionDetails, Chip,
-  Collapse,Avatar, Badge, Grid, Container, useMediaQuery, Fade, Grow, Stack, Tabs, Tab,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  CardContent,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Table,
+  TableContainer,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableRow,
+  createTheme,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  CircularProgress,
+  Stepper,
+  Step,
+  StepLabel,
+  Divider,
+  LinearProgress,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Chip,
+  Grid,
+  Tabs,
+  Tab,
 } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SettingsIcon from '@mui/icons-material/Settings';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
 import ErrorIcon from '@mui/icons-material/Error';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
@@ -26,7 +52,7 @@ import Select from '@mui/material/Select';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 // -----------------------------------------------------------------------------
-// COMMON STYLE OBJECT FOR INPUT FIELDS (same for select and text)
+// COMMON STYLE OBJECT FOR INPUT FIELDS
 // -----------------------------------------------------------------------------
 const commonInputStyles = {
   fontSize: '0.7rem',
@@ -39,8 +65,6 @@ const commonInputStyles = {
 
 // -----------------------------------------------------------------------------
 // RENDER INPUT FIELDS FUNCTION
-// This version uses TextField with select mode so that both select and text
-// fields have identical dimensions. They are arranged three per row.
 // -----------------------------------------------------------------------------
 const renderInputFields = (test, testInputs, handleInputChange, executionState) => {
   if (!test.inputs) return null;
@@ -59,7 +83,6 @@ const renderInputFields = (test, testInputs, handleInputChange, executionState) 
         {test.inputs.map((input) => (
           <Grid item xs={12} sm={4} key={input.name}>
             {input.type === 'select' ? (
-              // Use TextField with select attribute so that the dropdown inherits the same styles as text fields.
               <TextField
                 select
                 fullWidth
@@ -69,17 +92,11 @@ const renderInputFields = (test, testInputs, handleInputChange, executionState) 
                 value={testInputs[test.id][input.name] || ''}
                 onChange={(e) => handleInputChange(test.id, input.name, e.target.value)}
                 disabled={executionState.loading}
-                InputLabelProps={{
-                  shrink: true,
-                  sx: { ...commonInputStyles },
-                }}
-                InputProps={{
-                  sx: { ...commonInputStyles },
-                }}
+                InputLabelProps={{ shrink: true, sx: { ...commonInputStyles } }}
+                InputProps={{ sx: { ...commonInputStyles } }}
                 SelectProps={{
                   displayEmpty: true,
                   sx: { ...commonInputStyles, paddingRight: '32px' },
-                  // Always render the label if no value is selected
                   renderValue: (value) =>
                     value === '' ? (
                       <span style={{ color: 'rgba(0, 0, 0, 0.6)', ...commonInputStyles }}>
@@ -110,13 +127,8 @@ const renderInputFields = (test, testInputs, handleInputChange, executionState) 
                 onChange={(e) => handleInputChange(test.id, input.name, e.target.value)}
                 required
                 disabled={executionState.loading}
-                InputLabelProps={{
-                  shrink: true,
-                  sx: { ...commonInputStyles },
-                }}
-                InputProps={{
-                  sx: { ...commonInputStyles, '& input': { padding: 0 } },
-                }}
+                InputLabelProps={{ shrink: true, sx: { ...commonInputStyles } }}
+                InputProps={{ sx: { ...commonInputStyles, '& input': { padding: 0 } } }}
               />
             )}
           </Grid>
@@ -126,9 +138,9 @@ const renderInputFields = (test, testInputs, handleInputChange, executionState) 
   );
 };
 
-/* ---------------------------------------------------------------------------
-   5) THEME
---------------------------------------------------------------------------- */
+// -----------------------------------------------------------------------------
+// THEME
+// -----------------------------------------------------------------------------
 const theme = createTheme({
   palette: {
     mode: 'light',
@@ -179,21 +191,19 @@ const theme = createTheme({
       styleOverrides: { 
         root: { 
           background: 'linear-gradient(45deg, #0078D4 30%, #00C4B4 90%)', 
-          '&:hover': { 
-            boxShadow: '0 4px 16px rgba(0, 120, 212, 0.3)' 
-          }, 
+          '&:hover': { boxShadow: '0 4px 16px rgba(0, 120, 212, 0.3)' }, 
           transition: 'all 0.3s ease', 
           borderRadius: 6, 
           textTransform: 'none',
           fontSize: '0.7rem',
-          color: '#FFFFFF', // White text for all buttons
+          color: '#FFFFFF',
         },
         outlined: {
-          color: '#FFFFFF', // White text for outlined buttons
-          borderColor: '#FFFFFF', // White border
+          color: '#FFFFFF',
+          borderColor: '#FFFFFF',
         },
         contained: {
-          color: '#FFFFFF', // White text for contained buttons
+          color: '#FFFFFF',
         },
       } 
     },
@@ -217,33 +227,22 @@ const theme = createTheme({
       } 
     },
     MuiTableRow: { 
-      styleOverrides: { 
-        root: { '&:hover': { backgroundColor: '#F5F5F5' } } 
-      } 
+      styleOverrides: { '&:hover': { backgroundColor: '#F5F5F5' } } 
     },
     MuiTabs: { 
-      styleOverrides: { 
-        root: { backgroundColor: '#FFFFFF', borderBottom: '1px solid #E0E0E0' } 
-      } 
+      styleOverrides: { root: { backgroundColor: '#FFFFFF', borderBottom: '1px solid #E0E0E0' } } 
     },
     MuiTab: { 
-      styleOverrides: { 
-        root: { color: '#666666', '&.Mui-selected': { color: '#0078D4' }, fontSize: '0.7rem' }
-      } 
+      styleOverrides: { root: { color: '#666666', '&.Mui-selected': { color: '#0078D4' }, fontSize: '0.7rem' } } 
     },
     MuiSelect: {
-      styleOverrides: {
-        root: { '& .MuiSelect-select': { fontSize: '0.7rem', padding: '6px 8px' } },
-      },
+      styleOverrides: { root: { '& .MuiSelect-select': { fontSize: '0.7rem', padding: '6px 8px' } } },
     },
     MuiMenuItem: {
-      styleOverrides: {
-        root: { fontSize: '0.7rem' },
-      },
+      styleOverrides: { root: { fontSize: '0.7rem' } },
     },
   },
 });
-
 
 // -----------------------------------------------------------------------------
 // STYLED COMPONENTS
@@ -257,7 +256,6 @@ const GlassCard = styled(Paper)(({ theme }) => ({
   '&:hover': { boxShadow: '0 6px 20px rgba(0,120,212,0.2)' },
 }));
 
-// TestCardIcon renders the test icon with a circular background.
 const TestCardIcon = styled('div')(({ theme, bgColor }) => ({
   width: 32,
   height: 32,
@@ -273,7 +271,7 @@ const TestCardIcon = styled('div')(({ theme, bgColor }) => ({
 
 // -----------------------------------------------------------------------------
 // TOSCA CONFIGURATION
-// (Replace these URLs and credentials with your actual configuration)
+// -----------------------------------------------------------------------------
 const TOSCA_CONFIG = {
   TOKEN_URL: 'https://bnatossvr04.nucorsteel.local/tua/connect/token',
   EXECUTION_URL: 'https://bnatossvr04.nucorsteel.local/automationobjectservice/api/Execution/enqueue',
@@ -304,10 +302,8 @@ async function fetchNetworkExcel(networkPath, username, password, executionId) {
 
 // -----------------------------------------------------------------------------
 // TOSCA EXECUTION PANEL COMPONENT
-// This component manages the execution of test cases, status tracking,
-// and fetching of Excel results from a network path.
 // -----------------------------------------------------------------------------
-function ToscaExecutionPanel({ moduleData, productType, environment, showSnackbar }) {
+function ToscaExecutionPanel({ environment, showSnackbar }) {
   const [tabValue, setTabValue] = useState(0);
   const [expandedTest, setExpandedTest] = useState(null);
   const [executionState, setExecutionState] = useState({
@@ -344,7 +340,9 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
   const [isLoadingResults, setIsLoadingResults] = useState(false);
   const [networkPathDialog, setNetworkPathDialog] = useState(false);
 
-  // Handler for tab change
+  // ---------------------------------------------------------------------------
+  // HELPER FUNCTIONS
+  // ---------------------------------------------------------------------------
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
     if (newValue === 1 && executionState.executionId && networkCredentials.isConfigured && !resultData) {
@@ -352,17 +350,14 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
     }
   };
 
-  // Handler for input field changes
   const handleInputChange = (testId, field, value) => {
-    setTestInputs(prev => ({ ...prev, [testId]: { ...prev[testId], [field]: value } }));
+    setTestInputs((prev) => ({ ...prev, [testId]: { ...prev[testId], [field]: value } }));
   };
 
-  // Handler for network credential changes
   const handleCredentialChange = (field, value) => {
-    setNetworkCredentials(prev => ({ ...prev, [field]: value }));
+    setNetworkCredentials((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Normalizes a network path string
   const normalizePath = (path) => {
     path = path.trim();
     if (path.startsWith('\\\\')) {
@@ -374,14 +369,13 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
     }
   };
 
-  // Saves network credentials and attempts to fetch results if executionId exists
   const saveNetworkCredentials = () => {
     const effectivePath = networkCredentials.path === "Custom" ? networkCredentials.customPath : networkCredentials.path;
     if (!effectivePath) {
       showSnackbar('Network path is required', 'warning');
       return;
     }
-    setNetworkCredentials(prev => ({
+    setNetworkCredentials((prev) => ({
       ...prev,
       path: networkCredentials.path,
       customPath: networkCredentials.path === "Custom" ? prev.customPath : '',
@@ -392,7 +386,6 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
     if (executionState.executionId && tabValue === 1) fetchResultsData();
   };
 
-  // Function to fetch Excel results from the network
   const fetchResultsData = async () => {
     if (!networkCredentials.isConfigured) {
       setNetworkPathDialog(true);
@@ -404,9 +397,10 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
     }
     setIsLoadingResults(true);
     try {
-      const effectivePath = networkCredentials.path === "Custom"
-        ? normalizePath(networkCredentials.customPath)
-        : normalizePath(networkCredentials.path);
+      const effectivePath =
+        networkCredentials.path === "Custom"
+          ? normalizePath(networkCredentials.customPath)
+          : normalizePath(networkCredentials.path);
       const excelData = await fetchNetworkExcel(
         effectivePath,
         networkCredentials.username,
@@ -422,7 +416,6 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
     }
   };
 
-  // Sample test cases – you can replace this with your dynamic test case configuration
   const TESTS = [
     {
       id: 'Order_Creation',
@@ -480,13 +473,11 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
     },
   ];
 
-  // Validates that all required fields for a test case are filled in
   const validateInputs = (testId) => {
     const test = TESTS.find((t) => t.id === testId);
     return test.inputs.every((input) => testInputs[testId] && testInputs[testId][input.name]?.trim());
   };
 
-  // Starts test execution and polls for status updates
   const startExecution = async (testId) => {
     if (!validateInputs(testId)) {
       showSnackbar('Please fill in all required fields for this test', 'warning');
@@ -504,7 +495,6 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       testToRun: testId,
     });
     try {
-      // Get a token
       const tokenFormData = new URLSearchParams();
       tokenFormData.append('grant_type', TOSCA_CONFIG.CREDENTIALS.grant_type);
       tokenFormData.append('client_id', TOSCA_CONFIG.CREDENTIALS.client_id);
@@ -517,7 +507,7 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       if (!tokenResponse.ok) throw new Error(`Token request failed: ${tokenResponse.statusText}`);
       const tokenData = await tokenResponse.json();
       const token = tokenData.access_token;
-      setExecutionState(prev => ({ ...prev, step: 2, token, progress: 30 }));
+      setExecutionState((prev) => ({ ...prev, step: 2, token, progress: 30 }));
 
       const currentInputs = testInputs[testId];
       const parameters = {
@@ -547,20 +537,25 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       if (!executionResponse.ok) throw new Error(`Execution request failed: ${executionResponse.statusText}`);
       const executionData = await executionResponse.json();
       const executionId = executionData.ExecutionId;
-      setExecutionState(prev => ({ ...prev, step: 3, executionId, progress: 50, status: 'Running' }));
+      setExecutionState((prev) => ({ ...prev, step: 3, executionId, progress: 50, status: 'Running' }));
       const startTime = Date.now();
       await checkExecutionStatus(token, executionId, startTime);
     } catch (error) {
-      setExecutionState(prev => ({ ...prev, error: error.message, loading: false }));
+      setExecutionState((prev) => ({ ...prev, error: error.message, loading: false }));
       showSnackbar(`Error executing test: ${error.message}`, 'error');
     }
   };
 
-  // Recursively polls the execution status until the test completes, fails, errors out, or times out.
   const checkExecutionStatus = async (token, executionId, startTime) => {
     const maxWaitTime = 35 * 60 * 1000;
     if (Date.now() - startTime > maxWaitTime) {
-      setExecutionState(prev => ({ ...prev, loading: false, error: 'Test execution timed out', status: 'Timeout', result: 'Failed' }));
+      setExecutionState((prev) => ({
+        ...prev,
+        loading: false,
+        error: 'Test execution timed out',
+        status: 'Timeout',
+        result: 'Failed',
+      }));
       showSnackbar('Test execution timed out after 35 minutes', 'error');
       return;
     }
@@ -573,22 +568,23 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
         },
       });
       if (!statusResponse.ok) {
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise((resolve) => setTimeout(resolve, 3000));
         return await checkExecutionStatus(token, executionId, startTime);
       }
       const statusData = await statusResponse.json();
       if (['Completed', 'Failed', 'Error'].includes(statusData.status)) {
-        setExecutionState(prev => ({
+        setExecutionState((prev) => ({
           ...prev,
           status: statusData.status,
           progress: statusData.status === 'Completed' ? 100 : 90,
           result: statusData.status === 'Completed' ? (statusData.result || 'Passed') : 'Failed',
           loading: false,
-          error: statusData.status === 'Error'
-            ? 'Execution encountered an error'
-            : statusData.status === 'Failed'
-            ? 'Execution failed'
-            : null,
+          error:
+            statusData.status === 'Error'
+              ? 'Execution encountered an error'
+              : statusData.status === 'Failed'
+              ? 'Execution failed'
+              : null,
         }));
         showSnackbar(
           statusData.status === 'Completed'
@@ -597,26 +593,24 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
           statusData.status === 'Completed' ? 'success' : 'error'
         );
       } else {
-        setExecutionState(prev => ({
+        setExecutionState((prev) => ({
           ...prev,
           status: statusData.status,
           progress: Math.min(90, prev.progress + 5),
         }));
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise((resolve) => setTimeout(resolve, 3000));
         await checkExecutionStatus(token, executionId, startTime);
       }
     } catch (error) {
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
       await checkExecutionStatus(token, executionId, startTime);
     }
   };
 
-  // Handles toggling the expanded state for an accordion test case
   const toggleAccordion = (testId) => {
-    setExpandedTest(prev => (prev === testId ? null : testId));
+    setExpandedTest((prev) => (prev === testId ? null : testId));
   };
 
-  // Returns the appropriate status icon for a test case
   const getStatusIcon = (testId) => {
     if (executionState.testToRun !== testId) return <HourglassEmptyIcon color="disabled" fontSize="small" />;
     if (executionState.loading) return <CircularProgress size={14} />;
@@ -625,6 +619,110 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
     if (executionState.result === 'Failed') return <ErrorIcon color="error" fontSize="small" />;
     return <HourglassEmptyIcon color="disabled" fontSize="small" />;
   };
+
+  // ---------------------------------------------------------------------------
+  // RENDER EXCEL RESULTS SECTION
+  // ---------------------------------------------------------------------------
+  const renderResultsSection = () => (
+    <Box>
+      <Typography variant="h6" sx={{ mb: 2, color: 'text.primary', fontSize: '0.85rem' }}>
+        Test Execution Results
+      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem' }}>
+          {resultData
+            ? `Found ${resultData.rows.length} records in the ${resultData.sheetName} sheet with ${resultData.headers.length} fields`
+            : 'No results loaded'}
+        </Typography>
+        <Box>
+          {!networkCredentials.isConfigured ? (
+            <Button variant="outlined" color="primary" startIcon={<SettingsIcon />} onClick={() => setNetworkPathDialog(true)} size="small">
+              Configure Network Path
+            </Button>
+          ) : (
+            <Box>
+              <Button
+                variant="outlined"
+                color="primary"
+                startIcon={isLoadingResults ? <CircularProgress size={14} /> : <RefreshIcon />}
+                onClick={fetchResultsData}
+                disabled={isLoadingResults}
+                size="small"
+                sx={{ mr: 1 }}
+              >
+                {isLoadingResults ? 'Loading...' : 'Refresh Results'}
+              </Button>
+              <Button variant="outlined" color="secondary" startIcon={<SettingsIcon />} onClick={() => setNetworkPathDialog(true)} size="small">
+                Edit Path
+              </Button>
+            </Box>
+          )}
+        </Box>
+      </Box>
+      {resultData ? (
+        <Paper sx={{ p: 2, mb: 2, backgroundColor: alpha(theme.palette.primary.light, 0.1) }}>
+          <TableContainer component={Paper} variant="outlined" sx={{ mt: 2, maxHeight: 500, overflow: 'auto' }}>
+            <Table size="small" stickyHeader>
+              <TableHead>
+                <TableRow>
+                  {resultData.headers.map((header) => (
+                    <TableCell key={header} sx={{ fontWeight: 'bold' }}>
+                      {header}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {resultData.rows.map((row, index) => (
+                  <TableRow
+                    key={index}
+                    sx={{
+                      backgroundColor:
+                        row.Status?.toLowerCase() === 'failed'
+                          ? alpha('#ffebee', 0.5)
+                          : row.Status?.toLowerCase() === 'passed'
+                          ? alpha('#e8f5e9', 0.5)
+                          : 'inherit',
+                    }}
+                  >
+                    {resultData.headers.map((header) => (
+                      <TableCell key={`${index}-${header}`}>
+                        {header === 'Status' ? (
+                          <Chip
+                            label={row[header] || 'N/A'}
+                            size="small"
+                            color={
+                              row[header]?.toLowerCase() === 'passed'
+                                ? 'success'
+                                : row[header]?.toLowerCase() === 'failed'
+                                ? 'error'
+                                : 'default'
+                            }
+                          />
+                        ) : (
+                          row[header] || ''
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      ) : (
+        <Paper sx={{ p: 3, textAlign: 'center', borderStyle: 'dashed', borderColor: 'grey.400' }}>
+          <Typography color="text.secondary">
+            {networkCredentials.isConfigured
+              ? isLoadingResults
+                ? 'Loading result data...'
+                : 'Click "Refresh Results" to load test results'
+              : 'Configure network path to view test results'}
+          </Typography>
+        </Paper>
+      )}
+    </Box>
+  );
 
   // ---------------------------------------------------------------------------
   // RENDERING THE COMPONENT
@@ -645,7 +743,6 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                {/* You can include an icon here if needed */}
                 <Typography variant="h4" sx={{ fontSize: '1.2rem' }}>
                   Test Execution
                 </Typography>
@@ -685,7 +782,6 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
                 <Typography variant="h6" gutterBottom sx={{ fontSize: '0.95rem' }}>
                   Order Creation Workflow Till Shipping And Invoicing
                 </Typography>
-                {/* Render test cases as an accordion list */}
                 <Box sx={{ mt: 2 }}>
                   {TESTS.map((test) => (
                     <Accordion key={test.id} expanded={expandedTest === test.id} onChange={() => toggleAccordion(test.id)} sx={{ mb: 1 }}>
@@ -897,7 +993,6 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
                     <li>Configure network path to view Excel results after test execution</li>
                   </ol>
                 </Paper>
-                {/* Additional help content can be added here */}
               </Box>
             )}
           </Box>
@@ -966,137 +1061,6 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       </GlassCard>
     </motion.div>
   );
-
-  // Helper to render Excel Results section when available.
-  function renderResultsSection() {
-    return (
-      <Box>
-        <Typography variant="h6" sx={{ mb: 2, color: 'text.primary', fontSize: '0.85rem' }}>
-          Test Execution Results
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem' }}>
-            {resultData
-              ? `Found ${resultData.rows.length} records in the ${resultData.sheetName} sheet with ${resultData.headers.length} fields`
-              : 'No results loaded'}
-          </Typography>
-          <Box>
-            {!networkCredentials.isConfigured ? (
-              <Button variant="outlined" color="primary" startIcon={<SettingsIcon />} onClick={() => setNetworkPathDialog(true)} size="small">
-                Configure Network Path
-              </Button>
-            ) : (
-              <Box>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  startIcon={isLoadingResults ? <CircularProgress size={14} /> : <RefreshIcon />}
-                  onClick={fetchResultsData}
-                  disabled={isLoadingResults}
-                  size="small"
-                  sx={{ mr: 1 }}
-                >
-                  {isLoadingResults ? 'Loading...' : 'Refresh Results'}
-                </Button>
-                <Button variant="outlined" color="secondary" startIcon={<SettingsIcon />} onClick={() => setNetworkPathDialog(true)} size="small">
-                  Edit Path
-                </Button>
-              </Box>
-            )}
-          </Box>
-        </Box>
-        {resultData ? (
-          <Paper sx={{ p: 2, mb: 2, backgroundColor: alpha(theme.palette.primary.light, 0.1) }}>
-            <TableContainer component={Paper} variant="outlined" sx={{ mt: 2, maxHeight: 500, overflow: 'auto' }}>
-              <Table size="small" stickyHeader>
-                <TableHead>
-                  <TableRow>
-                    {resultData.headers.map((header) => (
-                      <TableCell key={header} sx={{ fontWeight: 'bold' }}>
-                        {header}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {resultData.rows.map((row, index) => (
-                    <TableRow
-                      key={index}
-                      sx={{
-                        backgroundColor:
-                          row.Status?.toLowerCase() === 'failed'
-                            ? alpha('#ffebee', 0.5)
-                            : row.Status?.toLowerCase() === 'passed'
-                            ? alpha('#e8f5e9', 0.5)
-                            : 'inherit',
-                      }}
-                    >
-                      {resultData.headers.map((header) => (
-                        <TableCell key={`${index}-${header}`}>
-                          {header === 'Status' ? (
-                            <Chip
-                              label={row[header] || 'N/A'}
-                              size="small"
-                              color={
-                                row[header]?.toLowerCase() === 'passed'
-                                  ? 'success'
-                                  : row[header]?.toLowerCase() === 'failed'
-                                  ? 'error'
-                                  : 'default'
-                              }
-                            />
-                          ) : (
-                            row[header] || ''
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-        ) : (
-          <Paper sx={{ p: 3, textAlign: 'center', borderStyle: 'dashed', borderColor: 'grey.400' }}>
-            <Typography color="text.secondary">
-              {networkCredentials.isConfigured
-                ? isLoadingResults
-                  ? 'Loading result data...'
-                  : 'Click "Refresh Results" to load test results'
-                : 'Configure network path to view test results'}
-            </Typography>
-          </Paper>
-        )}
-      </Box>
-    );
-  }
-}
-
-// -----------------------------------------------------------------------------
-// ERROR BOUNDARY (Optional – wraps the panel to catch rendering errors)
-// -----------------------------------------------------------------------------
-class ErrorBoundary extends React.Component {
-  state = { hasError: false, error: null };
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <Box sx={{ p: 2, textAlign: 'center' }}>
-          <Typography variant="h6" color="error">
-            Something went wrong!
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {this.state.error?.message || 'An unexpected error occurred.'}
-          </Typography>
-        </Box>
-      );
-    }
-    return this.props.children;
-  }
 }
 
 export default ToscaExecutionPanel;

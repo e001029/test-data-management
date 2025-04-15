@@ -1,6 +1,6 @@
 // commonInputFields.js
 import React from 'react';
-import { Box, Divider, Typography, Grid, TextField, MenuItem, FormControl } from '@mui/material';
+import { Box, Divider, Typography, Grid, TextField, MenuItem } from '@mui/material';
 
 // Define a common style object for both select and text fields
 const commonInputStyles = {
