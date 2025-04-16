@@ -4,7 +4,6 @@ import {
   Box, CardContent, Chip, Typography, FormControl,
   InputLabel, Select, MenuItem, Tooltip, Button
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import TuneIcon from '@mui/icons-material/Tune';
 import { productTypeOptions, environmentOptions } from '../utils/globalOptions'; // Example

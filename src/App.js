@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ThemeProvider, CssBaseline, Drawer, Box, Typography, Container } from '@mui/material';
+import { ThemeProvider, CssBaseline, Drawer, Box, Typography } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import Particles from 'react-tsparticles';
 import { loadSlim } from 'tsparticles-slim';
@@ -25,10 +25,9 @@ function App() {
   const [moduleFormInputs, setModuleFormInputs] = useState(buildInitialFormInputs());
   const [moduleData, setModuleData] = useState(buildInitialModuleData());
 
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+  const [setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const showSnackbar = (message, severity = 'success') => setSnackbar({ open: true, message, severity });
-  const handleCloseSnackbar = () => setSnackbar({ ...snackbar, open: false });
-
+ 
   // Particles
   const particleOptions = {
     particles: {
