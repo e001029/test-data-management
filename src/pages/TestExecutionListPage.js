@@ -44,6 +44,7 @@ import {
   Title,
   Tooltip as ChartTooltipJS,
   Legend,
+  BarController, 
   PieController
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
@@ -71,7 +72,8 @@ ChartJS.register(
   Title,
   ChartTooltipJS,
   Legend,
-  PieController
+  PieController,
+  BarController
 );
 
 // Placeholder for TOSCA_CONFIG
