@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.js": "/test-data-management/static/js/main.0316a282.js",
+    "main.js": "/test-data-management/static/js/main.20d0990d.js",
     "static/media/getsitelogo.png": "/test-data-management/static/media/getsitelogo.c44909c872ddc747073f.png",
     "index.html": "/test-data-management/index.html",
-    "main.0316a282.js.map": "/test-data-management/static/js/main.0316a282.js.map"
+    "main.20d0990d.js.map": "/test-data-management/static/js/main.20d0990d.js.map"
   },
   "entrypoints": [
-    "static/js/main.0316a282.js"
+    "static/js/main.20d0990d.js"
   ]
 }
