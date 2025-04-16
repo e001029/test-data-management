@@ -56,6 +56,7 @@ ChartJS.register(
   Legend
 );
 import { Chart } from 'react-chartjs-2';
+console.log('Registered Chart.js controllers:', ChartJS.registry.controllers);
 
 import StorageIcon from '@mui/icons-material/Storage';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
