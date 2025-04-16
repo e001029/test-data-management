@@ -37,16 +37,24 @@ import { loadSlim } from 'tsparticles-slim';
 
 import {
   Chart as ChartJS,
-  ArcElement,
+  BarController,
   BarElement,
-  LinearScale,
   CategoryScale,
+  LinearScale,
   Title,
-  Tooltip as ChartTooltipJS,
+  Tooltip,
   Legend,
-  BarController, 
-  PieController
 } from 'chart.js';
+
+ChartJS.register(
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend
+);
 import { Chart } from 'react-chartjs-2';
 
 import StorageIcon from '@mui/icons-material/Storage';
