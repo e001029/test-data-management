@@ -1131,7 +1131,7 @@ function TestExecutionListPage({ onBack }) {
       }),
     }));
 
-  // Memoize TEST_GROUPS so they don’t trigger repeated recalculations
+  // Memoize TEST_GROUPS so they donâ€™t trigger repeated recalculations
   const TEST_GROUPS = useMemo(() => enhanceTestsWithDex(TEST_GROUPS_ORIGINAL), []);
 
   // -------------------------
