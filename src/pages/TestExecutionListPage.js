@@ -14,6 +14,7 @@ import {
   Card,
   CircularProgress,
   Divider,
+  Tooltip,
   Grid,
   MenuItem,
   TextField,
@@ -28,36 +29,11 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  Avatar,
-  Tooltip,
+  Avatar
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Particles from 'react-tsparticles';
 import { loadSlim } from 'tsparticles-slim';
-
-import {
-  Chart as ChartJS,
-  BarController,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-
-ChartJS.register(
-  BarController,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend
-);
-import { Chart } from 'react-chartjs-2';
-console.log('Registered Chart.js controllers:', ChartJS.registry.controllers);
-
 import StorageIcon from '@mui/icons-material/Storage';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import BuildIcon from '@mui/icons-material/Build';
@@ -71,6 +47,36 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+
+import {
+  BarController,
+  ArcElement,
+  BarElement,
+  LinearScale,
+  CategoryScale,
+  Title,
+  Tooltip as ChartTooltipJS,
+  Legend,
+  PieController,
+  Chart as ChartJS,
+} from 'chart.js';
+import { Chart } from 'react-chartjs-2';
+
+// Register Chart.js components
+ChartJS.register(
+  BarController,
+  ArcElement,
+  BarElement,
+  LinearScale,
+  CategoryScale,
+  Title,
+  ChartTooltipJS,
+  Legend,
+  PieController
+);
+
+
+console.log('Registered Chart.js controllers:', ChartJS.registry.controllers);
 
 // Register Chart.js components
 ChartJS.register(
