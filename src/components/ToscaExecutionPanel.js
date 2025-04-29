@@ -511,6 +511,7 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: tokenFormData,
       });
+      console.log('Token response status:', tokenResponse.status, tokenResponse.statusText);
       if (!tokenResponse.ok) throw new Error(`Token request failed: ${tokenResponse.statusText}`);
       const tokenData = await tokenResponse.json();
       const token = tokenData.access_token;
@@ -1021,24 +1022,24 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
                       key={index}
                       sx={{
                         backgroundColor:
-                          row.Status?.toLowerCase() === 'failed'
-                            ? alpha('#ffebee', 0.5)
-                            : row.Status?.toLowerCase() === 'passed'
+                          row['Warning message in Configurator page']?.toLowerCase().includes('no')
                             ? alpha('#e8f5e9', 0.5)
+                            : row['Warning message in Configurator page']?.toLowerCase().includes('warning')
+                            ? alpha('#fff3e0', 0.5)
                             : 'inherit',
                       }}
                     >
                       {resultData.headers.map((header) => (
                         <TableCell key={`${index}-${header}`}>
-                          {header === 'Status' ? (
+                          {header === 'Warning message in Configurator page' ? (
                             <Chip
                               label={row[header] || 'N/A'}
                               size="small"
                               color={
-                                row[header]?.toLowerCase() === 'passed'
+                                row[header]?.toLowerCase().includes('no')
                                   ? 'success'
-                                  : row[header]?.toLowerCase() === 'failed'
-                                  ? 'error'
+                                  : row[header]?.toLowerCase().includes('warning')
+                                  ? 'warning'
                                   : 'default'
                               }
                             />
