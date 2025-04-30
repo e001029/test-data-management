@@ -241,7 +241,6 @@ const theme = createTheme({
   },
 });
 
-
 // -----------------------------------------------------------------------------
 // STYLED COMPONENTS
 // -----------------------------------------------------------------------------
@@ -320,7 +319,7 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
   });
   const [testInputs, setTestInputs] = useState({
     Order_Creation: { eventName: '' },
-    Caster_Production: { eventName: '', PgId: '' },
+    Caster_Production: { eventName: '', PgId: '', officeGUI: '' },
     Quality_Validation: { eventName: '', heatNumber: '' },
     Load_Creation: { eventName: '', orderNumber: '', customerNumber: '' },
     Shipping_Process: { eventName: '', orderNumber: '', customerNumber: '' },
@@ -441,6 +440,7 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       inputs: [
         { name: 'dex', label: 'DEX', type: 'select', options: ['Dex1', 'Dex2', 'Dex3', 'Dex4', 'Dex5', 'Dex6'] },
         { name: 'eventName', label: 'Event Name', type: 'select', options: ['Skin Pass', 'Annealing', 'Galvenzing', 'Hot Rolled', 'Cold Rolled'] },
+        { name: 'officeGUI', label: 'Office GUI', type: 'select', options: ['NUBBMESTRAIN-Office-GUI','NUBBMESTEST-Office-GUI','NUBBMESDVAL-Office-GUI','NSINDEV01-Office-GUI','NSINQA01-Office-GUI','NSINTEST-Office-GUI','NSINTRN-Office-GUI']},
         { name: 'PgId', label: 'Program ID', placeholder: 'Enter program ID', type: 'text' },
       ],
     },
@@ -1074,33 +1074,6 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
         )}
       </Box>
     );
-  }
-}
-
-// -----------------------------------------------------------------------------
-// ERROR BOUNDARY (Optional – wraps the panel to catch rendering errors)
-// -----------------------------------------------------------------------------
-class ErrorBoundary extends React.Component {
-  state = { hasError: false, error: null };
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <Box sx={{ p: 2, textAlign: 'center' }}>
-          <Typography variant="h6" color="error">
-            Something went wrong!
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {this.state.error?.message || 'An unexpected error occurred.'}
-          </Typography>
-        </Box>
-      );
-    }
-    return this.props.children;
   }
 }
 
