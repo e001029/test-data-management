@@ -59,27 +59,36 @@ app.post('/api/network-excel', async (req, res) => {
     // Convert to JSON with raw cell values
     const jsonData = XLSX.utils.sheet_to_json(resultsSheet, { header: 1, defval: '' });
 
-    if (jsonData.length === 0) {
-      throw new Error('Result sheet is empty');
+    if (jsonData.length < 2) {
+      throw new Error('Result sheet does not contain enough data (requires at least one key-value pair)');
     }
 
-    // Treat the first row as headers
-    const headers = jsonData[0].filter(header => header && header.toString().trim() !== '').map(header => header.toString().trim());
+    // Parse key-value pairs starting from the second row (A2)
+    const headers = [];
+    const rowObj = {};
+    for (let i = 1; i < jsonData.length; i += 2) { // Start from index 1 (second row)
+      const key = jsonData[i][0]?.toString().trim();
+      const value = jsonData[i + 1]?.[0]?.toString().trim() || '';
+      if (key) {
+        headers.push(key);
+        rowObj[key] = value;
+      }
+    }
+
     if (headers.length === 0) {
-      throw new Error('No valid headers found in the first row of the Result sheet');
+      throw new Error('No valid key-value pairs found in the Result sheet');
     }
 
-    // Read the first 5 rows of data (excluding the header row)
-    const rows = jsonData.slice(1, 6).map(row => {
-      const rowObj = {};
-      headers.forEach((header, index) => {
-        rowObj[header] = row[index] !== undefined ? row[index].toString().trim() : '';
-      });
-      return rowObj;
+    // Normalize headers and rowObj keys to ensure exact matches
+    const expectedHeaders = ["SalesOrderNumber", "Current Date", "Lines", "Warning message in Configurator page"];
+    const normalizedRowObj = {};
+    expectedHeaders.forEach(header => {
+      // Find the matching key in headers (case-insensitive, ignore spaces)
+      const matchingKey = headers.find(h => h.toLowerCase().replace(/\s+/g, '') === header.toLowerCase().replace(/\s+/g, ''));
+      normalizedRowObj[header] = matchingKey ? rowObj[matchingKey] || '' : '';
     });
 
-    // Filter out empty rows (where all values are empty)
-    const filteredRows = rows.filter(row => Object.values(row).some(val => val !== ''));
+    const rows = [normalizedRowObj];
 
     // Unmap the network drive
     try {
@@ -90,13 +99,13 @@ app.post('/api/network-excel', async (req, res) => {
     }
 
     // Log the data being sent
-    console.log('Excel data sent:', { sheetName: resultSheetName, headers, rows: filteredRows });
+    console.log('Excel data sent:', { sheetName: resultSheetName, headers: expectedHeaders, rows });
 
     // Return the Excel data
     res.json({
       sheetName: resultSheetName,
-      headers: headers,
-      rows: filteredRows
+      headers: expectedHeaders,
+      rows: rows
     });
 
   } catch (error) {
