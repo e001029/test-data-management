@@ -1,6 +1,6 @@
 {
     "name": "test-data-management-backend",
-    "homepage": "https://nucor.github.io/arp",
+    "homepage": "https://e001029.github.io/test-data-management",
     "version": "1.0.0",
     "main": "server.js",
     "scripts": {
