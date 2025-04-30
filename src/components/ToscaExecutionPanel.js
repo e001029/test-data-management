@@ -426,7 +426,10 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       description: 'Tests the creation and validation of orders in the system',
       icon: <StorageIcon />,
       color: '#3f51b5',
-      inputs: [{ name: 'eventName', label: 'Event Name', type: 'select', options: ['Order Creation'] }],
+      inputs: [
+        { name: 'dex', label: 'DEX', type: 'select', options: ['Dex1', 'Dex2', 'Dex3', 'Dex4', 'Dex5', 'Dex6'] },
+        { name: 'eventName', label: 'Event Name', type: 'select', options: ['Order Creation'] }
+      ],
     },
     {
       id: 'Caster_Production',
@@ -435,6 +438,7 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       icon: <CategoryIcon />,
       color: '#f44336',
       inputs: [
+        { name: 'dex', label: 'DEX', type: 'select', options: ['Dex1', 'Dex2', 'Dex3', 'Dex4', 'Dex5', 'Dex6'] },
         { name: 'eventName', label: 'Event Name', type: 'select', options: ['Skin Pass', 'Annealing', 'Galvenzing', 'Hot Rolled', 'Cold Rolled'] },
         { name: 'officeGUI', label: 'Office GUI', type: 'select', options: ['NUBBMESTRAIN-Office-GUI','NUBBMESTEST-Office-GUI','NUBBMESDVAL-Office-GUI','NSINDEV01-Office-GUI','NSINQA01-Office-GUI','NSINTEST-Office-GUI','NSINTRN-Office-GUI']},
         { name: 'PgId', label: 'Program ID', placeholder: 'Enter program ID', type: 'text' },
@@ -447,6 +451,7 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       icon: <CheckCircleIcon />,
       color: '#4caf50',
       inputs: [
+        { name: 'dex', label: 'DEX', type: 'select', options: ['Dex1', 'Dex2', 'Dex3', 'Dex4', 'Dex5', 'Dex6'] },
         { name: 'eventName', label: 'Event Name', type: 'select', options: ['Quality Validation'] },
         { name: 'heatNumber', label: 'Heat Number', placeholder: 'Enter heat number', type: 'text' },
       ],
@@ -458,6 +463,7 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       icon: <LocalShippingIcon />,
       color: '#ff9800',
       inputs: [
+        { name: 'dex', label: 'DEX', type: 'select', options: ['Dex1', 'Dex2', 'Dex3', 'Dex4', 'Dex5', 'Dex6'] },
         { name: 'eventName', label: 'Event Name', type: 'select', options: ['Load Creation'] },
         { name: 'orderNumber', label: 'Order Number', placeholder: 'Enter order number', type: 'text' },
         { name: 'customerNumber', label: 'Customer Number', placeholder: 'Enter customer number', type: 'text' },
@@ -470,6 +476,7 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       icon: <LocalShippingIcon />,
       color: '#9c27b0',
       inputs: [
+        { name: 'dex', label: 'DEX', type: 'select', options: ['Dex1', 'Dex2', 'Dex3', 'Dex4', 'Dex5', 'Dex6'] },
         { name: 'eventName', label: 'Event Name', type: 'select', options: ['Shipping Process'] },
         { name: 'orderNumber', label: 'Order Number', placeholder: 'Enter order number', type: 'text' },
         { name: 'customerNumber', label: 'Customer Number', placeholder: 'Enter customer number', type: 'text' },
@@ -511,26 +518,27 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: tokenFormData,
       });
+      console.log('Token response status:', tokenResponse.status, tokenResponse.statusText);
       if (!tokenResponse.ok) throw new Error(`Token request failed: ${tokenResponse.statusText}`);
       const tokenData = await tokenResponse.json();
       const token = tokenData.access_token;
       setExecutionState(prev => ({ ...prev, step: 2, token, progress: 30 }));
-
+  
       const currentInputs = testInputs[testId];
       const parameters = {
         ...(environment && { Environment: environment }),
         ...Object.fromEntries(
           Object.entries(currentInputs)
-            .filter(([k]) => k !== 'eventName')
+            .filter(([k]) => k !== 'eventName' && k !== 'dex') // Exclude dex from parameters
             .map(([k, v]) => [k.charAt(0).toUpperCase() + k.slice(1), v])
         ),
       };
       const executionBody = {
         projectName: 'NBTToscaProject',
-        executionEnvironment: 'Dex',
+        executionEnvironment: 'DEX', // Use selected dex value
         events: [{ eventId: currentInputs.eventName, parameters }],
         importResult: true,
-        creator: 'Lakshmi',
+        creator: 'TDM',
       };
       const executionResponse = await fetch(TOSCA_CONFIG.EXECUTION_URL, {
         method: 'POST',
@@ -1021,24 +1029,24 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
                       key={index}
                       sx={{
                         backgroundColor:
-                          row.Status?.toLowerCase() === 'failed'
-                            ? alpha('#ffebee', 0.5)
-                            : row.Status?.toLowerCase() === 'passed'
+                          row['Warning message in Configurator page']?.toLowerCase().includes('no')
                             ? alpha('#e8f5e9', 0.5)
+                            : row['Warning message in Configurator page']?.toLowerCase().includes('warning')
+                            ? alpha('#fff3e0', 0.5)
                             : 'inherit',
                       }}
                     >
                       {resultData.headers.map((header) => (
                         <TableCell key={`${index}-${header}`}>
-                          {header === 'Status' ? (
+                          {header === 'Warning message in Configurator page' ? (
                             <Chip
                               label={row[header] || 'N/A'}
                               size="small"
                               color={
-                                row[header]?.toLowerCase() === 'passed'
+                                row[header]?.toLowerCase().includes('no')
                                   ? 'success'
-                                  : row[header]?.toLowerCase() === 'failed'
-                                  ? 'error'
+                                  : row[header]?.toLowerCase().includes('warning')
+                                  ? 'warning'
                                   : 'default'
                               }
                             />
