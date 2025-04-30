@@ -427,7 +427,10 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       description: 'Tests the creation and validation of orders in the system',
       icon: <StorageIcon />,
       color: '#3f51b5',
-      inputs: [{ name: 'eventName', label: 'Event Name', type: 'select', options: ['Order Creation'] }],
+      inputs: [
+        { name: 'dex', label: 'DEX', type: 'select', options: ['Dex1', 'Dex2', 'Dex3', 'Dex4', 'Dex5', 'Dex6'] },
+        { name: 'eventName', label: 'Event Name', type: 'select', options: ['Order Creation'] }
+      ],
     },
     {
       id: 'Caster_Production',
@@ -436,6 +439,7 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       icon: <CategoryIcon />,
       color: '#f44336',
       inputs: [
+        { name: 'dex', label: 'DEX', type: 'select', options: ['Dex1', 'Dex2', 'Dex3', 'Dex4', 'Dex5', 'Dex6'] },
         { name: 'eventName', label: 'Event Name', type: 'select', options: ['Skin Pass', 'Annealing', 'Galvenzing', 'Hot Rolled', 'Cold Rolled'] },
         { name: 'PgId', label: 'Program ID', placeholder: 'Enter program ID', type: 'text' },
       ],
@@ -447,6 +451,7 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       icon: <CheckCircleIcon />,
       color: '#4caf50',
       inputs: [
+        { name: 'dex', label: 'DEX', type: 'select', options: ['Dex1', 'Dex2', 'Dex3', 'Dex4', 'Dex5', 'Dex6'] },
         { name: 'eventName', label: 'Event Name', type: 'select', options: ['Quality Validation'] },
         { name: 'heatNumber', label: 'Heat Number', placeholder: 'Enter heat number', type: 'text' },
       ],
@@ -458,6 +463,7 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       icon: <LocalShippingIcon />,
       color: '#ff9800',
       inputs: [
+        { name: 'dex', label: 'DEX', type: 'select', options: ['Dex1', 'Dex2', 'Dex3', 'Dex4', 'Dex5', 'Dex6'] },
         { name: 'eventName', label: 'Event Name', type: 'select', options: ['Load Creation'] },
         { name: 'orderNumber', label: 'Order Number', placeholder: 'Enter order number', type: 'text' },
         { name: 'customerNumber', label: 'Customer Number', placeholder: 'Enter customer number', type: 'text' },
@@ -470,6 +476,7 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       icon: <LocalShippingIcon />,
       color: '#9c27b0',
       inputs: [
+        { name: 'dex', label: 'DEX', type: 'select', options: ['Dex1', 'Dex2', 'Dex3', 'Dex4', 'Dex5', 'Dex6'] },
         { name: 'eventName', label: 'Event Name', type: 'select', options: ['Shipping Process'] },
         { name: 'orderNumber', label: 'Order Number', placeholder: 'Enter order number', type: 'text' },
         { name: 'customerNumber', label: 'Customer Number', placeholder: 'Enter customer number', type: 'text' },
@@ -516,22 +523,22 @@ function ToscaExecutionPanel({ moduleData, productType, environment, showSnackba
       const tokenData = await tokenResponse.json();
       const token = tokenData.access_token;
       setExecutionState(prev => ({ ...prev, step: 2, token, progress: 30 }));
-
+  
       const currentInputs = testInputs[testId];
       const parameters = {
         ...(environment && { Environment: environment }),
         ...Object.fromEntries(
           Object.entries(currentInputs)
-            .filter(([k]) => k !== 'eventName')
+            .filter(([k]) => k !== 'eventName' && k !== 'dex') // Exclude dex from parameters
             .map(([k, v]) => [k.charAt(0).toUpperCase() + k.slice(1), v])
         ),
       };
       const executionBody = {
         projectName: 'NBTToscaProject',
-        executionEnvironment: 'Dex',
+        executionEnvironment: 'DEX', // Use selected dex value
         events: [{ eventId: currentInputs.eventName, parameters }],
         importResult: true,
-        creator: 'Lakshmi',
+        creator: 'TDM',
       };
       const executionResponse = await fetch(TOSCA_CONFIG.EXECUTION_URL, {
         method: 'POST',
